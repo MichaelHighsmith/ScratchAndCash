@@ -2,9 +2,15 @@ package com.satyrlabs.scratchandcash;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 
 import com.facebook.FacebookSdk;
@@ -17,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.launch_scratch_card)
     Button scratchCardButton;
-    @BindView(R.id.sign_out_button)
-    Button signOutButton;
+
+    private final Map<Integer, Fragment> fragments = new ArrayMap<>(3);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +44,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        Log.d("AppLog", "key:" + FacebookSdk.getApplicationSignature(this));
+        fragments.put(R.id.cards_layout, new ScratchCardListFragment());
 
+        final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        for(final Integer id: fragments.keySet()) {
+            fragmentTransaction.add(id, fragments.get(id));
+        }
+        fragmentTransaction.commit();
+        getSupportFragmentManager().executePendingTransactions();
 
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
@@ -73,15 +85,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.sign_out_button)
-    public void signOut() {
-        AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        System.out.print("signed out");
-                    }
-                });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sign_out:
+                AuthUI.getInstance()
+                        .signOut(this)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                System.out.print("signed out");
+                            }
+                        });
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
