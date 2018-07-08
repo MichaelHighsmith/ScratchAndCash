@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1079950407738",
+    "firebase_url": "https://scratchandcash.firebaseio.com",
+    "project_id": "scratchandcash",
+    "storage_bucket": "scratchandcash.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079950407738:android:656e4dc98cfbfeaf",
+        "android_client_info": {
+          "package_name": "com.satyrlabs.scratchandcash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1079950407738-hfkgd4q4q3tjo5b22j2qr53fht55jd6i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.satyrlabs.scratchandcash",
+            "certificate_hash": "a6598f6f96406aa8e3ed188539a5ef4ba9d7e7b4"
+          }
+        },
+        {
+          "client_id": "1079950407738-onntatvissdeq27l8j8rc4rsl9n6646e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVOaM4X1YktOAh01zfIl18LUA1GgaUzSE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1079950407738-onntatvissdeq27l8j8rc4rsl9n6646e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

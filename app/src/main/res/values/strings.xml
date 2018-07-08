@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ScratchAndCash</string>
+    <string name="facebook_application_id" translatable="false">248330599232014</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb248330599232014</string>
 </resources>
