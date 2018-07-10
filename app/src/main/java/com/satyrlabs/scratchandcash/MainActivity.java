@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
 import com.firebase.ui.auth.AuthUI;
@@ -25,22 +26,33 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
+    @Inject
+    SharedPreferencesManager sharedPreferencesManager;
+
     private static final int RC_SIGN_IN = 123;
 
     @BindView(R.id.launch_scratch_card)
     Button scratchCardButton;
+    @BindView(R.id.total_cash_amount)
+    TextView totalCashAmount;
 
     private final Map<Integer, Fragment> fragments = new ArrayMap<>(3);
+
+    protected ApplicationComponent component;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setComponent(component());
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
@@ -53,6 +65,35 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
         getSupportFragmentManager().executePendingTransactions();
 
+        if( FirebaseAuth.getInstance().getCurrentUser() == null) {
+            signIn();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        totalCashAmount.setText(String.valueOf(sharedPreferencesManager.getUserPointTotal()));
+    }
+
+    public ApplicationComponent component() {
+        if(component == null) {
+            setComponent(DaggerApplicationComponent
+            .builder()
+            .applicationModule(new ApplicationModule(this))
+            .build());
+        }
+
+        return component;
+    }
+
+    public void setComponent(final ApplicationComponent component) {
+        this.component = component;
+        this.component.inject(this);
+    }
+
+
+    private void signIn() {
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
                 new AuthUI.IdpConfig.FacebookBuilder().build()
@@ -80,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 System.out.print("signed in");
-
             }
         }
     }

@@ -6,11 +6,29 @@
     android:layout_height="match_parent"
     tools:context="com.satyrlabs.scratchandcash.MainActivity">
 
+    <TextView
+        android:id="@+id/total_cash_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Total Cash Earned: $"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/total_cash_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        app:layout_constraintStart_toEndOf="@+id/total_cash_text"
+        app:layout_constraintTop_toTopOf="@+id/total_cash_text" />
+
     <Button
         android:id="@+id/launch_scratch_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Play a new Card!"
+        android:text="Play a Random Card!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
